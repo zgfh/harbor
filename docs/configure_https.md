@@ -2,7 +2,7 @@
 
 Because Harbor does not ship with any certificates, it uses HTTP by default to serve registry requests.  However, it is highly recommended that security be enabled for any production environment. Harbor has an Nginx instance as a reverse proxy for all services, you can use the prepare script to configure Nginx to enable https.
 
-In a test or development environment, you may choose to use a self-signed certificate instead of the one from a trusted third-party CA. The followings will show you how to create your own CA, and use your CA to sign a server certificate and a client certificate. 
+In a test or development environment, you may choose to use a self-signed certificate instead of the one from a trusted third-party CA. The following will show you how to create your own CA, and use your CA to sign a server certificate and a client certificate. 
 
 ## Getting Certificate Authority
 
@@ -18,11 +18,11 @@ In a test or development environment, you may choose to use a self-signed certif
 
 ## Getting Server Certificate
 
-Assuming that your registry's **hostname** is **yourdomain.com**, and that its DNS record points to the host where you are running Harbor. In production environment, you first should get a certificate from a CA. In a test or development environment, you can use your own CA. The certificate usually contains a .crt file and a .key file, for example, **yourdomain.com.crt** and **yourdomain.com.key**.
+Assuming that your registry's **hostname** is **yourdomain.com**, and that its DNS record points to the host where you are running Harbor. In a production environment, you first should get a certificate from a CA. In a test or development environment, you can use your own CA. The certificate usually contains a .crt file and a .key file, for example, **yourdomain.com.crt** and **yourdomain.com.key**.
 
 
 
-**1) Create your own Private Key:**
+**1) Create yourself's Private Key:**
 
 ```
   openssl genrsa -out yourdomain.com.key 4096
@@ -74,7 +74,7 @@ EOF
 **1) Configure Server Certificate and Key for Harbor**
 
 After obtaining the **yourdomain.com.crt** and **yourdomain.com.key** files, 
-you can put them into directory such as ```/root/cert/```:
+you can put them into a directory such as ```/root/cert/```:
 
 ```
   cp yourdomain.com.crt /data/cert/
@@ -109,7 +109,7 @@ The following illustrates a configuration with custom certificates:
        └── ca.crt               <-- Certificate authority that signed the registry certificate
 ```
 
-Notice that you may need to trust the certificate at OS level. Please refer to the [Troubleshooting](#Troubleshooting) section below.
+Notice that you may need to trust the certificate at the OS level. Please refer to the [Troubleshooting](#Troubleshooting) section below.
 
 **3) Configure Harbor**
 
@@ -153,7 +153,7 @@ After setting up HTTPS for Harbor, you can verify it by the following steps:
 
 * Open a browser and enter the address: https://yourdomain.com. It should display the user interface of Harbor. 
 
-* Notice that some browser may still shows the warning regarding Certificate Authority (CA) unknown for security reason even though we signed certificates by self-signed CA and deploy the CA to the place mentioned above. It is because self-signed CA essentially is not a trusted third-party CA. You can import the CA to the browser on your own to solve the warning.
+* Notice that some browser may still show the warning regarding Certificate Authority (CA) unknown for security reason even though we signed certificates by self-signed CA and deploy the CA to the place mentioned above. It is because self-signed CA essentially is not a trusted third-party CA. You can import the CA to the browser on your own to solve the warning.
 
 * On a machine with Docker daemon, make sure the option "-insecure-registry" for https://yourdomain.com does not present. 
 
@@ -171,7 +171,7 @@ If you've mapped nginx 443 port to another, you need to add the port to login, l
 
 
 ## Troubleshooting
-1. You may get an intermediate certificate from a certificate issuer. In this case, you should merge the intermediate certificate with your own certificate to create a certificate bundle. You can achieve this by the below command:  
+1. You may get an intermediate certificate from a certificate issuer. In this case, you should merge the intermediate certificate with yourself's certificate to create a certificate bundle. You can achieve this by the below command:  
 
     ```
     cat intermediate-certificate.pem >> yourdomain.com.crt 
